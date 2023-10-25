@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SHUTTLE</title>
+    <title>Mapa Interativo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -37,18 +37,12 @@
             border: 1px solid red; /* Borda vermelha */
             color: red; /* Texto vermelho */
         }
-
-        @media (max-width: 767px) {
-            #map {
-                height: 200px;
-            }
-        }
     </style>
 </head>
 <body>
-    <h1>SHUTTLE</h1>
+    <h1>Mapa Interativo</h1>
     <div id="map"></div>
-    <<ul id="locations">
+    <ul id="locations">
         <li data-name="Aeroporto">Aeroporto</li>
         <li data-name="Brasília Palace Hotel">Brasília Palace Hotel</li>
         <li data-name="Galpão 17">Galpão 17</li>
@@ -57,66 +51,70 @@
     </ul>
 
     <script>
-        // Adicione JavaScript na próxima etapa
+        const locationData = {
+            "Aeroporto": {
+                lat: -15.8694,
+                lng: -47.9202,
+                info: "Aeroporto Internacional de Brasília. Horário: 24/7.",
+                mapLink: "https://www.google.com/maps/place/Aeroporto+Internacional+de+Bras%C3%ADlia/@-15.8706901,-47.919347,15z/data=!4m6!3m5!1s0x935a2582bb6d2b43:0xbeebe30930ee8750!8m2!3d-15.8706901!4d-47.919347!16zL20vMDR3dzVr?entry=ttu"
+            },
+            "Brasília Palace Hotel": {
+                lat: -15.788308171914858,
+                lng: -47.83123283300845,
+                info: "Brasília Palace Hotel. Horário: 8:00 - 22:00.",
+                mapLink: "https://www.google.com/maps/place/Bras%C3%ADlia+Palace+Hotel/@-15.7884372,-47.833797,17z/data=!3m1!4b1!4m9!3m8!1s0x935a3cbcfd8cdcbd:0x6882ff8d3e7981e8!5m2!4m1!1i2!8m2!3d-15.7884424!4d-47.8312221!16s%2Fg%2F11b7d_1cw1?entry=ttu"
+            },
+            "Galpão 17": {
+                lat: -15.815431757928414,
+                lng: -47.96608578882963,
+                info: "Galpão 17. Horário: Varia.",
+                mapLink: "https://www.google.com/maps/place/GALP%C3%83O+17+DF/@-15.8155298,-47.9687036,17z/data=!3m1!4b1!4m6!3m5!1s0x935a317c93d4ad39:0x6994031aaae88cd3!8m2!3d-15.815535!4d-47.9661287!16s%2Fg%2F11gjl28lh_?entry=ttu"
+            },
+            "Star Night": {
+                lat: -15.79667534837757,
+                lng: -47.890174073573185,
+                info: "Star Night. Horário: INSIRA_HORARIO_AQUI.",
+                mapLink: "https://www.google.com/maps/place/Star+Night/@-15.7967734,-47.8928348,17z/data=!3m1!4b1!4m6!3m5!1s0x935a3b9a35073e87:0x103a7422a4115b50!8m2!3d-15.7967786!4d-47.8902599!16s%2Fg%2F11rxj1rxrx?entry=ttu"
+            },
+            "Clube Cotamil": {
+                lat: -15.814165870844564,
+                lng: -47.86029315940446,
+                info: "Clube Cotamil. Horário: INSIRA_HORARIO_AQUI.",
+                mapLink: "https://www.google.com/maps/place/Cota+Mil+Iate+Clube/@-15.8192803,-47.8690778,17z/data=!3m1!4b1!4m6!3m5!1s0x935a24b433d2ee6f:0xa6591537f0f2da69!8m2!3d-15.8192855!4d-47.8665029!16s%2Fg%2F1vfp98xp?entry=ttu"
+            }
+        };
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -15.8694, lng: -47.9202 },
+                zoom: 12
+            });
+
+            const locations = document.querySelectorAll('#locations li');
+
+            for (const location of locations) {
+                location.addEventListener('click', function () {
+                    const name = this.getAttribute('data-name');
+                    const data = locationData[name];
+                    const marker = new google.maps.Marker({
+                        position: { lat: data.lat, lng: data.lng },
+                        map: map,
+                        title: name
+                    });
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `<b>${name}</b><br>${data.info}<br><a href="${data.mapLink}" target="_blank">Abrir no Google Maps</a>`
+                    });
+                    infoWindow.open(map, marker);
+                });
+            }
+        }
     </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsv24yCJoHFi-Vu87CjcPpRv65Umjp64&callback=initMap" async defer></script>
 </body>
 </html>
 
-<script>
-    function initMap() {
-        const map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: -15.7801, lng: -47.9292 }, // Coordenadas iniciais
-            zoom: 12
-        });
 
-        const locations = document.querySelectorAll('#locations li');
-        const infoWindow = new google.maps.InfoWindow();
-
-        // Crie um objeto de informações para cada local
-        const locationData = {
-    "Aeroporto": {
-        lat: -15.8694,
-        lng: -47.9202,
-        info: "Aeroporto Internacional de Brasília. Horário: 24/7."
-    },
-    "Brasília Palace Hotel": {
-        lat: -15.7867,
-        lng: -47.9292,
-        info: "Brasília Palace Hotel. Horário: 8:00 - 22:00."
-    },
-    "Galpão 17": {
-        lat: -15.7966,
-        lng: -47.8796,
-        info: "Galpão 17 - Espaço Cultural. Horário: Varia."
-    },
-    "Star Night": {
-        lat: -15.79667534837757,
-        lng: -47.890174073573185,
-        info: "Star Night. Horário: INSIRA_HORARIO_AQUI."
-    },
-    "Clube Cotamil": {
-        lat: -15.819120324827788,
-        lng: -47.86651363309673,
-        info: "Clube Cotamil. Horário: INSIRA_HORARIO_AQUI."
-    }
-};
-
-
-        // Adicione marcadores para cada local
-        for (const location of locations) {
-            location.addEventListener('click', function () {
-                const name = this.getAttribute('data-name');
-                const data = locationData[name];
-                const marker = new google.maps.Marker({
-                    position: { lat: data.lat, lng: data.lng },
-                    map: map,
-                    title: name
-                });
-                infoWindow.setContent(`<b>${name}</b><br>${data.info}`);
-                infoWindow.open(map, marker);
-            });
-        }
-    }
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsv24yCJoHFi-Vu87CjcPpRv65Umjp64&callback=initMap" async defer></script>
