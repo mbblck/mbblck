@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHUTTLE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white; /* Fundo branco */
+        }
+
+        h1 {
+            text-align: center;
+            background-color: red; /* Fundo vermelho para o título */
+            color: white; /* Texto branco para o título */
+            padding: 10px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        #locations {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        #locations li {
+            margin: 10px;
+            padding: 5px;
+            background-color: white; /* Fundo branco */
+            cursor: pointer;
+            border: 1px solid red; /* Borda vermelha */
+            color: red; /* Texto vermelho */
+        }
+
+        @media (max-width: 767px) {
+            #map {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>SHUTTLE</h1>
+    <div id="map"></div>
+    <<ul id="locations">
+        <li data-name="Aeroporto">Aeroporto</li>
+        <li data-name="Brasília Palace Hotel">Brasília Palace Hotel</li>
+        <li data-name="Galpão 17">Galpão 17</li>
+        <li data-name="Star Night">Star Night</li>
+        <li data-name="Clube Cotamil">Clube Cotamil</li>
+    </ul>
+
+    <script>
+        // Adicione JavaScript na próxima etapa
+    </script>
+</body>
+</html>
+
+<script>
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -15.7801, lng: -47.9292 }, // Coordenadas iniciais
+            zoom: 12
+        });
+
+        const locations = document.querySelectorAll('#locations li');
+        const infoWindow = new google.maps.InfoWindow();
+
+        // Crie um objeto de informações para cada local
+        const locationData = {
+    "Aeroporto": {
+        lat: -15.8694,
+        lng: -47.9202,
+        info: "Aeroporto Internacional de Brasília. Horário: 24/7."
+    },
+    "Brasília Palace Hotel": {
+        lat: -15.7867,
+        lng: -47.9292,
+        info: "Brasília Palace Hotel. Horário: 8:00 - 22:00."
+    },
+    "Galpão 17": {
+        lat: -15.7966,
+        lng: -47.8796,
+        info: "Galpão 17 - Espaço Cultural. Horário: Varia."
+    },
+    "Star Night": {
+        lat: -15.79667534837757,
+        lng: -47.890174073573185,
+        info: "Star Night. Horário: INSIRA_HORARIO_AQUI."
+    },
+    "Clube Cotamil": {
+        lat: -15.819120324827788,
+        lng: -47.86651363309673,
+        info: "Clube Cotamil. Horário: INSIRA_HORARIO_AQUI."
+    }
+};
+
+
+        // Adicione marcadores para cada local
+        for (const location of locations) {
+            location.addEventListener('click', function () {
+                const name = this.getAttribute('data-name');
+                const data = locationData[name];
+                const marker = new google.maps.Marker({
+                    position: { lat: data.lat, lng: data.lng },
+                    map: map,
+                    title: name
+                });
+                infoWindow.setContent(`<b>${name}</b><br>${data.info}`);
+                infoWindow.open(map, marker);
+            });
+        }
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsv24yCJoHFi-Vu87CjcPpRv65Umjp64&callback=initMap" async defer></script>
+
