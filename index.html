@@ -6,7 +6,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: red; /* Fundo vermelho */
+            background-color: red; /* Fundo vermelho sólido */
             color: white; /* Texto branco */
             display: flex;
             flex-direction: column;
@@ -15,19 +15,28 @@
             height: 100vh; /* Toda a altura da viewport */
             text-align: center;
         }
-        
+
         #logo {
-            font-size: 64px; /* Tamanho maior para "Hells Angels" */
+            font-size: 192px; /* Triplicado o tamanho para "Hells Angels" */
+            font-family: 'Arial Black', sans-serif; /* Escolha uma fonte que lembre um moto clube */
             margin-bottom: 20px; /* Espaçamento inferior */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra no texto para destaque */
         }
-        
+
         #welcome-button {
-            background-color: white; /* Fundo branco para o botão */
-            color: red; /* Texto vermelho para o botão */
-            padding: 10px 20px;
+            background-color: red; /* Fundo vermelho para o botão */
+            color: white; /* Texto branco para o botão */
+            padding: 45px 90px; /* Triplicado o tamanho para o botão */
             border: none;
             cursor: pointer;
             margin-top: 20px; /* Espaçamento superior entre o botão e "Hells Angels" */
+            font-size: 36px; /* Triplicado o tamanho do texto no botão "Welcome" */
+            border-radius: 10px; /* Cantos arredondados para o botão */
+            transition: background-color 0.3s; /* Transição suave de cor ao passar o mouse */
+        }
+
+        #welcome-button:hover {
+            background-color: darkred; /* Cor mais escura ao passar o mouse */
         }
     </style>
 </head>
