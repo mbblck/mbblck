@@ -39,27 +39,49 @@
         }
 
         .custom-info-window {
-        max-width: 400px; /* Largura máxima personalizável */
-        padding: 20px;
-        background-color: #fff; /* Cor de fundo personalizável */
-        border: 2px solid #f00; /* Cor da borda personalizável */
-    }
+            max-width: 400px; /* Largura máxima personalizável */
+            padding: 20px;
+            background-color: #fff; /* Cor de fundo personalizável */
+            border: 2px solid #f00; /* Cor da borda personalizável */
+        }
 
         /* Estilo para o botão "View on Google Maps" */
-        .view-on-maps-button {
-            display: block;
-            background-color: #000; /* Cor de fundo preta */
-            color: #fff; /* Cor do texto branco */
-            padding: 10px 20px; /* Espaçamento interno */
+        #view-on-maps-button {
+            display: inline-block;
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
             text-align: center;
             text-decoration: none;
-            border-radius: 10px; /* Borda arredondada */
-            margin-top: 15px; /* Espaçamento superior para separá-lo das informações */
+            border-radius: 10px;
+            margin-top: 15px;
         }
+
+        /* Estilo para o link "View on Google Maps" em estado hover (quando o mouse está sobre ele) */
+        #view-on-maps-button:hover {
+            background-color: #333; /* Uma cor ligeiramente mais escura para destacar o hover */
+        }
+
+        .button {
+            display: block;
+            text-align: center;
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 200px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Mapa Interativo</h1>
+    <div id="logo" style="text-align: center; background-color: red; color: white; padding: 10px; font-size: 24px;">
+        Hells Angels
+    </div>
+    <button id="welcome-button" class="button" onclick="location.href='event_info.html'">Event Info</button>
+
     <div id="map"></div>
     <ul id="locations">
         <li data-name="Aeroporto">Aeroporto</li>
@@ -67,72 +89,79 @@
         <li data-name="Galpão 17">Galpão 17</li>
         <li data-name="Star Night">Star Night</li>
         <li data-name="Clube Cotamil">Clube Cotamil</li>
+        <li data-name="Hells Angels MC Brasilia">Hells Angels MC Brasilia</li>
     </ul>
 
-   <script>
+    <script>
     const locationData = {
-        "Aeroporto": {
-            lat: -15.8694,
-            lng: -47.9202,
-            info: "Aeroporto Internacional de Brasília. Horário: 24/7.",
-            mapLink: "https://www.google.com/maps/place/Aeroporto+Internacional+de+Brasília/@-15.8706901,-47.919347,15z/data=!4m6!3m5!1s0x935a2582bb6d2b43:0xbeebe30930ee8750!8m2!3d-15.8706901!4d-47.919347!16zL20vMDR3dzVr?entry=ttu"
-        },
-        "Brasília Palace Hotel": {
-            lat: -15.7884424,
-            lng: -47.8312221,
-            info: "Brasília Palace Hotel. Horário: 8:00 - 22:00. Transportation: Shuttle service available from the hotel.",
-            mapLink: "https://www.google.com/maps/place/Bras%C3%ADlia+Palace+Hotel/@-15.7884424,-47.8312221,17z/data=!4m2!3m1!1s0x0:0x6882ff8d3e7981e8?sa=X&ved=2ahUKEwiO9-bF5ZGCAxU9rJUCHZEcBAYQ_BJ6BAhlEAA&ved=2ahUKEwiO9-bF5ZGCAxU9rJUCHZEcBAYQ_BJ6BAhzEAc"
-        },
-        "Galpão 17": {
-            lat: -15.815535,
-            lng: -47.9661287,
-            info: "Galpão 17. Horário: Varia. Transportation: No dedicated transportation.",
-            mapLink: "https://www.google.com/maps/place/GALP%C3%83O+17+DF/@-15.8155298,-47.9687036,17z/data=!3m1!4b1!4m6!3m5!1s0x935a317c93d4ad39:0x6994031aaae88cd3!8m2!3d-15.815535!4d-47.9661287!16s%2Fg%2F11gjl28lh_?entry=ttu"
-        },
-        "Star Night": {
-            lat: -15.7967786,
-            lng: -47.8902599,
-            info: "Star Night. Horário: INSIRA_HORARIO_AQUI. Transportation: No dedicated transportation.",
-            mapLink: "https://www.google.com/maps/place/Star+Night/@-15.7967786,-47.8902599,15z/data=!4m6!3m5!1s0x935a3b9a35073e87:0x103a7422a4115b50!8m2!3d-15.7967786!4d-47.8902599!16s%2Fg%2F11rxj1rxrx?entry=ttu"
-        },
-        "Clube Cotamil": {
-            lat: -15.8192855,
-            lng: -47.8665029,
-            info: "Clube Cotamil. Horário: INSIRA_HORARIO_AQUI. Transportation: No dedicated transportation.",
-            mapLink: "https://www.google.com/maps/place/Cota+Mil+Iate+Clube/@-15.8192855,-47.8665029,17z/data=!3m1!4b1!4m6!3m5!1s0x935a24b433d2ee6f:0xa6591537f0f2da69!8m2!3d-15.8192855!4d-47.8665029!16s%2Fg%2F1vfp98xp?entry=ttu"
-        }
-    };
-
-    function initMap() {
-        const map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: -15.8694, lng: -47.9202 },
-            zoom: 12
-        });
-
-        const locations = document.querySelectorAll('#locations li');
-
-        for (const location of locations) {
-            location.addEventListener('click', function () {
-                const name = this.getAttribute('data-name');
-                const data = locationData[name];
-                const marker = new google.maps.Marker({
-                    position: { lat: data.lat, lng: data.lng },
-                    map: map,
-                    title: name
-                });
-                const infoWindow = new google.maps.InfoWindow({
-    content: `
-        <div class="custom-info-window">
-            <b>${name}</b><br>
-            ${data.info}<br>
-            <a class="custom-button" href="${data.mapLink}" target="_blank" style="background-color: black; color: white; border-radius: 5px;">View on Google Maps</a>
-        </div>`
-});
-                infoWindow.open(map, marker);
-            });
-        }
+    "Aeroporto": {
+        lat: -15.8694,
+        lng: -47.9202,
+        info: "Shuttle leaving from Brasilia Palace Hotel every 1 hour from 8:00 AM to 6:00 PM",
+        mapLink: "https://www.google.com/maps/place/Aeroporto+Internacional+de+Brasília/@-15.8706901,-47.919347,15z/data=!4m6!3m5!1s0x935a2582bb6d2b43:0xbeebe30930ee8750!8m2!3d-15.8706901!4d-47.919347!16zL20vMDR3dzVr?entry=ttu"
+    },
+    "Brasília Palace Hotel": {
+        lat: -15.7884424,
+        lng: -47.8312221,
+        mapLink: "https://www.google.com/maps/place/Bras%C3%ADlia+Palace+Hotel/@-15.7884424,-47.8312221,17z/data=!4m2!3m1!1s0x0:0x6882ff8d3e7981e8?sa=X&ved=2ahUKEwiO9-bF5ZGCAxU9rJUCHZEcBAYQ_BJ6BAhlEAA&ved=2ahUKEwiO9-bF5ZGCAxU9rJUCHZEcBAYQ_BJ6BAhzEAc"
+    },
+    "Galpão 17": {
+        lat: -15.815535,
+        lng: -47.9661287,
+        info: "03/11 Departure: 8:00 PM Return: 1:00 AM",
+        mapLink: "https://www.google.com/maps/place/GALP%C3%83O+17+DF/@-15.8155298,-47.9687036,17z/data=!3m1!4b1!4m6!3m5!1s0x935a317c93d4ad39:0x6994031aaae88cd3!8m2!3d-15.815535!4d-47.9661287!16s%2Fg%2/11gjl28lh_?entry=ttu"
+    },
+    "Star Night": {
+        lat: -15.7967786,
+        lng: -47.8902599,
+        info: "02/11 Departure: 10:00 PM Return: não definido.",
+        mapLink: "https://www.google.com/maps/place/Star+Night/@-15.7967786,-47.8902599,15z/data=!4m6!3m5!1s0x935a3b9a35073e87:0x103a7422a4115b50!8m2!3d-15.7967786!4d-47.8902599!16s%2Fg%2/11rxj1rxrx?entry=ttu"
+    },
+    "Clube Cotamil": {
+        lat: -15.8192855,
+        lng: -47.8665029,
+        info: "04/11 Departure: 9:00 PM Return: 3:00 AM",
+        mapLink: "https://www.google.com/maps/place/Cota+Mil+Iate+Clube/@-15.8192855,-47.8665029,17z/data=!3m1!4b1!4m6!3m5!1s0x935a24b433d2ee6f:0xa6591537f0f2da69!8m2!3d-15.8192855!4d-47.8665029!16s%2Fg%2/1vfp98xp?entry=ttu"
+    },
+    "Hells Angels MC Brasília": {
+        lat: -15.6476269,
+        lng: -47.7635923,
+        info: "Nenhuma informação disponível.",
+        mapLink: "https://www.google.com/maps/place/Hells+Angels+MC+Brasilia/@-15.6476269,-47.7635923,15z/data=!4m2!3m1!1s0x0:0xa333e63e60f4e11b?sa=X&ved=2ahUKEwiDyPOK-pKCAxXZupUCHaLpBtEQ_BJ6BAhKEAA&ved=2ahUKEwiDyPOK-pKCAxXZupUCHaLpBtEQ_BJ6BAhYEAc"
     }
-</script>
+};
+
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -15.8694, lng: -47.9202 },
+                zoom: 12
+            });
+
+            const locations = document.querySelectorAll('#locations li');
+
+            for (const location of locations) {
+                location.addEventListener('click', function () {
+                    const name = this.getAttribute('data-name');
+                    const data = locationData[name];
+                    const marker = new google.maps.Marker({
+                        position: { lat: data.lat, lng: data.lng },
+                        map: map,
+                        title: name
+                    });
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div class="custom-info-window">
+                                <b>${name}</b><br>
+                                Info: ${data.info}<br>
+                                <a id="view-on-maps-button" href="${data.mapLink}" target="_blank">View on Google Maps</a>
+                            </div>`
+                    });
+                    infoWindow.open(map, marker);
+                });
+            }
+        }
+    </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsv24yCJoHFi-Vu87CjcPpRv65Umjp64&callback=initMap" async defer></script>
 </body>
